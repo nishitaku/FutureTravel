@@ -1,0 +1,12 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+
+# Distribution / packaging
+bin/
+lib/
+include/
+
+# Environments
+.env
+.pyvenv.cfg
+pip-selfcheck.json
