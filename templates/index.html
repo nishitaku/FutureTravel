@@ -15,6 +15,35 @@
         <!--<div id="map" style="width:620px; height:400px"></div>-->
     </div>
 </div>
+<div id="liffdata">
+    <h2>LIFF Data</h2>
+    <table border="1">
+        <tr>
+            <th>language</th>
+            <td id="languagefield"></td>
+        </tr>
+        <tr>
+            <th>context.viewType</th>
+            <td id="viewtypefield"></td>
+        </tr>
+        <tr>
+            <th>context.userId</th>
+            <td id="useridfield"></td>
+        </tr>
+        <tr>
+            <th>context.utouId</th>
+            <td id="utouidfield"></td>
+        </tr>
+        <tr>
+            <th>context.roomId</th>
+            <td id="roomidfield"></td>
+        </tr>
+        <tr>
+            <th>context.groupId</th>
+            <td id="groupidfield"></td>
+        </tr>
+    </table>
+</div>
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <!--<script src="/static/js/jquery.min.js"></script>-->
 <!-- Include all compiled plugins (below), or include individual files as needed -->
@@ -30,7 +59,10 @@
         crossorigin="anonymous"></script>
 <!--<script async defer-->
 <!--src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC9akic1UAj-i4X1fWeYBZwFUkMv3MCNSk&callback=initMap"></script>-->
-<script src="http://maps.google.com/maps?file=api&v=2&key=AIzaSyC9akic1UAj-i4X1fWeYBZwFUkMv3MCNSk&sensor=false"
+<script src="http://maps.google.com/maps?file=api&v=2&key=AIzaSyBdfdAlLSf8hWn3cLczA7DFQOSzn3VuUCM&sensor=false"
         type="text/javascript" charset="utf-8"></script>
 <script src="/static/js/main.js"></script>
+<!-- LIFF SDK の読み込み -->
+<script src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
+<script src="/static/js/liff.js"></script>
 {% endblock %}
