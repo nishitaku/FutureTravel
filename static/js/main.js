@@ -1,16 +1,16 @@
-var map;
-var directions;
-
-$(function () {
-    //    initMap();
-
-
-});
-
-$('#mapping').click(() => {
-    //    renderMap();
-    dispRoute();
-});
+//var map;
+//var directions;
+//
+//$(function () {
+//    //    initMap();
+//
+//
+//});
+//
+//$('#mapping').click(() => {
+//    //    renderMap();
+//    dispRoute();
+//});
 
 //$(window).on('load', () => {
 //    console.log('onload')
@@ -29,40 +29,40 @@ $('#mapping').click(() => {
 
 
 
-function initMap() {
-    console.log('initMap')
-    var opts = {
-        zoom: 15,
-        center: new google.maps.LatLng(35.1239654, 136.9417741)
-    };
-    var map = new google.maps.Map(document.getElementById("map"), opts);
-    $('#msg').text('堀田')
-}
-
-function renderMap() {
-    console.log('renderMap')
-    var src = $('#src').text()
-    var dst = $('#dst').text()
-    var opts = {
-        zoom: 15,
-        center: new google.maps.LatLng(35.1253694, 136.9073667)
-    };
-    var map = new google.maps.Map(document.getElementById("map"), opts);
-    $('#msg').text('熱田神宮')
-}
-
-function dispRoute() {
-    console.log('dispRoute')
-    var from = $('#src').val()
-    var to = $('#dst').val()
-    console.log(from)
-    console.log(to)
-
-    directions.clear();
-
-    str = 'from: ' + from + ' to: ' + to;
-    directions.load(str, { locale: 'ja_JP' });
-}
+//function initMap() {
+//    console.log('initMap')
+//    var opts = {
+//        zoom: 15,
+//        center: new google.maps.LatLng(35.1239654, 136.9417741)
+//    };
+//    var map = new google.maps.Map(document.getElementById("map"), opts);
+//    $('#msg').text('堀田')
+//}
+//
+//function renderMap() {
+//    console.log('renderMap')
+//    var src = $('#src').text()
+//    var dst = $('#dst').text()
+//    var opts = {
+//        zoom: 15,
+//        center: new google.maps.LatLng(35.1253694, 136.9073667)
+//    };
+//    var map = new google.maps.Map(document.getElementById("map"), opts);
+//    $('#msg').text('熱田神宮')
+//}
+//
+//function dispRoute() {
+//    console.log('dispRoute')
+//    var from = $('#src').val()
+//    var to = $('#dst').val()
+//    console.log(from)
+//    console.log(to)
+//
+//    directions.clear();
+//
+//    str = 'from: ' + from + ' to: ' + to;
+//    directions.load(str, { locale: 'ja_JP' });
+//}
 
 window.onload = function (e) {
     // init で初期化。基本情報を取得。
