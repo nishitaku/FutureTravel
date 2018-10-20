@@ -12,28 +12,20 @@ $('#mapping').click(() => {
     dispRoute();
 });
 
-$(window).on('load', () => {
-    console.log('onload')
-    if (GBrowserIsCompatible()) {
-        map = new GMap2(document.getElementById("map_canvas"));
-        map.setCenter(new GLatLng(35.681379, 139.765577), 13);
-
-        directions = new GDirections(map, document.getElementById('route'));
-    }
-
-    // LIFF
-    console.log('liff start')
-    liff.init(function (data) {
-        console.log('liff init')
-        alert(data)
-        initializeApp(data);
-    });
-})
-
-$(window).on('unload', () => {
-    console.log('unload')
-    GUnload()
-})
+//$(window).on('load', () => {
+//    console.log('onload')
+//    if (GBrowserIsCompatible()) {
+//        map = new GMap2(document.getElementById("map_canvas"));
+//        map.setCenter(new GLatLng(35.681379, 139.765577), 13);
+//
+//        directions = new GDirections(map, document.getElementById('route'));
+//    }
+//})
+//
+//$(window).on('unload', () => {
+//    console.log('unload')
+//    GUnload()
+//})
 
 
 
@@ -70,6 +62,38 @@ function dispRoute() {
 
     str = 'from: ' + from + ' to: ' + to;
     directions.load(str, { locale: 'ja_JP' });
+}
+
+window.onload = function (e) {
+    // init で初期化。基本情報を取得。
+    // https://developers.line.me/ja/reference/liff/#initialize-liff-app
+    liff.init(function (data) {
+        getProfile();
+        initializeApp(data);
+    });
+};
+
+// プロファイルの取得と表示
+function getProfile() {
+    // https://developers.line.me/ja/reference/liff/#liffgetprofile()
+    liff.getProfile().then(function (profile) {
+        document.getElementById('useridprofilefield').textContent = profile.userId;
+        document.getElementById('displaynamefield').textContent = profile.displayName;
+
+        var profilePictureDiv = document.getElementById('profilepicturediv');
+        if (profilePictureDiv.firstElementChild) {
+            profilePictureDiv.removeChild(profilePictureDiv.firstElementChild);
+        }
+        var img = document.createElement('img');
+        img.src = profile.pictureUrl;
+        img.alt = "Profile Picture";
+        img.width = 200;
+        profilePictureDiv.appendChild(img);
+
+        document.getElementById('statusmessagefield').textContent = profile.statusMessage;
+    }).catch(function (error) {
+        window.alert("Error getting profile: " + error);
+    });
 }
 
 function initializeApp(data) {
