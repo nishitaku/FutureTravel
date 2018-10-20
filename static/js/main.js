@@ -22,7 +22,9 @@ $(window).on('load', () => {
     }
 
     // LIFF
-    liff.init(function (data) {
+    console.log('liff start')
+    liff.init(function (data)
+        console.log('liff init'){
         alert(data)
         initializeApp(data);
     });
