@@ -89,11 +89,11 @@
 <script src="/static/js/main.js"></script>
 <script>
     window.onload = function (e) {
-        initialize();
+
         // init で初期化。基本情報を取得。
         // https://developers.line.me/ja/reference/liff/#initialize-liff-app
         liff.init(function (data) {
-
+            initialize();
             getProfile();
             initializeApp(data);
         });
