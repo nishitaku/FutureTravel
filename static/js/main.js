@@ -21,16 +21,16 @@ $('#mapping').click(() => {
     dispRoute();
 });
 
-$(window).on('load', () => {
-    console.log('onload')
-    //    if (GBrowserIsCompatible()) {
-    //        map = new GMap2(document.getElementById("map_canvas"));
-    //        map.setCenter(new GLatLng(35.681379, 139.765577), 13);
-    //
-    //        directions = new GDirections(map, document.getElementById('route'));
-    //    }
-    initialize();
-})
+//$(window).on('load', () => {
+//    console.log('onload')
+//    //    if (GBrowserIsCompatible()) {
+//    //        map = new GMap2(document.getElementById("map_canvas"));
+//    //        map.setCenter(new GLatLng(35.681379, 139.765577), 13);
+//    //
+//    //        directions = new GDirections(map, document.getElementById('route'));
+//    //    }
+//    initialize();
+//})
 
 function initialize() {
     var zoom = 7;
