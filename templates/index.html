@@ -81,5 +81,17 @@
 <!-- LIFF SDK の読み込み -->
 <script src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
 <script src="/static/js/main.js"></script>
+<script>
+    $(window).on('load', function () {
+
+        // init で初期化。基本情報を取得。
+        // https://developers.line.me/ja/reference/liff/#initialize-liff-app
+        liff.init(function (data) {
+
+            getProfile();
+            initializeApp(data);
+        });
+    });
+</script>
 <!--<script src="/static/js/liff.js"></script>-->
 {% endblock %}

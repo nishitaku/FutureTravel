@@ -8,16 +8,7 @@ var directionsService =
     new google.maps.DirectionsService();
 var map;
 
-$(window).on('load', function () {
 
-    // init で初期化。基本情報を取得。
-    // https://developers.line.me/ja/reference/liff/#initialize-liff-app
-    liff.init(function (data) {
-
-        getProfile();
-        initializeApp(data);
-    });
-});
 
 $('#mapping').click(() => {
     dispRoute();
