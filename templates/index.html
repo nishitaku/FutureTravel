@@ -1,7 +1,5 @@
 {% extends "layout.html" %}
 {% block content %}
-<!-- Form
-================================================== -->
 <div class="form">
     <div class="container">
         <p>出発地<input type="text" id="src" value="東京駅"></p>
@@ -12,7 +10,6 @@
         <p id="msg"></p>
         <div id="map_canvas" style="width: 500px; height: 300px"></div>
         <div id="route" style="width: 500px; height: 200px;overflow: scroll"></div>
-        <!--<div id="map" style="width:620px; height:400px"></div>-->
     </div>
 </div>
 <div id="profileinfo">
@@ -64,21 +61,12 @@
         </tr>
     </table>
 </div>
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<!--<script src="/static/js/jquery.min.js"></script>-->
-<!-- Include all compiled plugins (below), or include individual files as needed -->
-<!--<script src="/static/js/bootstrap.min.js"></script>-->
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
     crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
     crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
     crossorigin="anonymous"></script>
-<!--<script async defer-->
-<!--src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC9akic1UAj-i4X1fWeYBZwFUkMv3MCNSk&callback=initMap"></script>-->
-<!--<script src="http://maps.google.com/maps?file=api&v=2&key=AIzaSyBdfdAlLSf8hWn3cLczA7DFQOSzn3VuUCM&sensor=false"-->
-<!--type="text/javascript" charset="utf-8"></script>-->
-<!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC9akic1UAj-i4X1fWeYBZwFUkMv3MCNSk"></script>-->
 
 <!--<script src="https://maps.google.com/maps/api/js?v=3&key=AIzaSyBdfdAlLSf8hWn3cLczA7DFQOSzn3VuUCM"></script>-->
 
@@ -133,5 +121,4 @@
 
 
 </script>
-<!--<script src="/static/js/liff.js"></script>-->
 {% endblock %}
