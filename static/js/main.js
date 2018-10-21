@@ -1,3 +1,5 @@
+//var map;
+//var directions;
 rendererOptions = {
     draggable: true,
     preserveViewport: false
@@ -8,9 +10,27 @@ var directionsService =
     new google.maps.DirectionsService();
 var map;
 
+$(function () {
+    //    initMap();
+
+
+});
+
 $('#mapping').click(() => {
+    //    renderMap();
     dispRoute();
 });
+
+//$(window).on('load', () => {
+//    console.log('onload')
+//    //    if (GBrowserIsCompatible()) {
+//    //        map = new GMap2(document.getElementById("map_canvas"));
+//    //        map.setCenter(new GLatLng(35.681379, 139.765577), 13);
+//    //
+//    //        directions = new GDirections(map, document.getElementById('route'));
+//    //    }
+//    initialize();
+//})
 
 function initialize() {
     var zoom = 7;
@@ -30,6 +50,7 @@ function initialize() {
     calcRoute("東京", "名古屋");
 }
 
+
 function calcRoute(src, dst) {
     var request = {
         origin: src,
@@ -47,6 +68,13 @@ function calcRoute(src, dst) {
             }
         });
 }
+
+$(window).on('unload', () => {
+    console.log('unload')
+    GUnload()
+})
+
+
 
 function initMap() {
     console.log('initMap')
@@ -77,5 +105,9 @@ function dispRoute() {
     console.log(from)
     console.log(to)
 
+//    directions.clear();
+//
+//    str = 'from: ' + from + ' to: ' + to;
+//    directions.load(str, { locale: 'ja_JP' });
     calcRoute(from, to)
 }
