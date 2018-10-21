@@ -10,11 +10,11 @@ var directionsService =
     new google.maps.DirectionsService();
 var map;
 
-$(function () {
-    //    initMap();
-
-
-});
+//$(function () {
+//    //    initMap();
+//
+//
+//});
 
 $('#mapping').click(() => {
     //    renderMap();
