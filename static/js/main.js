@@ -1,5 +1,3 @@
-//var map;
-//var directions;
 rendererOptions = {
     draggable: true,
     preserveViewport: false
@@ -50,12 +48,6 @@ function calcRoute(src, dst) {
             }
         });
 }
-
-$(window).on('unload', () => {
-    console.log('unload')
-    GUnload()
-})
-
 
 
 function initMap() {
