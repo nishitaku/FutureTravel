@@ -12,6 +12,7 @@ $('#mapping').click(() => {
     dispRoute();
 });
 
+
 function initialize() {
     var zoom = 7;
     var mapTypeId = google.maps.MapTypeId.ROADMAP
@@ -30,7 +31,6 @@ function initialize() {
     calcRoute("東京", "名古屋");
 }
 
-
 function calcRoute(src, dst) {
     var request = {
         origin: src,
@@ -48,7 +48,6 @@ function calcRoute(src, dst) {
             }
         });
 }
-
 
 function initMap() {
     console.log('initMap')
