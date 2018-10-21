@@ -12,7 +12,6 @@
         <p id="msg"></p>
         <div id="map_canvas" style="width: 500px; height: 300px"></div>
         <div id="route" style="width: 500px; height: 200px;overflow: scroll"></div>
-        <!--<div id="map" style="width:620px; height:400px"></div>-->
     </div>
 </div>
 <div id="profileinfo">
@@ -74,64 +73,13 @@
     crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
     crossorigin="anonymous"></script>
-<!--<script async defer-->
-<!--src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC9akic1UAj-i4X1fWeYBZwFUkMv3MCNSk&callback=initMap"></script>-->
-<!--<script src="http://maps.google.com/maps?file=api&v=2&key=AIzaSyBdfdAlLSf8hWn3cLczA7DFQOSzn3VuUCM&sensor=false"-->
-<!--type="text/javascript" charset="utf-8"></script>-->
-<!--<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC9akic1UAj-i4X1fWeYBZwFUkMv3MCNSk"></script>-->
-
+<!--開発用-->
 <!--<script src="https://maps.google.com/maps/api/js?v=3&key=AIzaSyBdfdAlLSf8hWn3cLczA7DFQOSzn3VuUCM"></script>-->
-
+<!--本番用-->
 <script src="https://maps.google.com/maps/api/js?v=3&key=AIzaSyC9akic1UAj-i4X1fWeYBZwFUkMv3MCNSk"></script>
 
 <!-- LIFF SDK の読み込み -->
 <script src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
 <script src="/static/js/main.js"></script>
-<script>
-    window.onload = function (e) {
-
-        // init で初期化。基本情報を取得。
-        // https://developers.line.me/ja/reference/liff/#initialize-liff-app
-        liff.init(function (data) {
-
-            getProfile();
-            initializeApp(data);
-        });
-    };
-
-    // プロファイルの取得と表示
-    function getProfile() {
-        // https://developers.line.me/ja/reference/liff/#liffgetprofile()
-        liff.getProfile().then(function (profile) {
-            document.getElementById('useridprofilefield').textContent = profile.userId;
-            document.getElementById('displaynamefield').textContent = profile.displayName;
-
-            var profilePictureDiv = document.getElementById('profilepicturediv');
-            if (profilePictureDiv.firstElementChild) {
-                profilePictureDiv.removeChild(profilePictureDiv.firstElementChild);
-            }
-            var img = document.createElement('img');
-            img.src = profile.pictureUrl;
-            img.alt = "Profile Picture";
-            img.width = 200;
-            profilePictureDiv.appendChild(img);
-
-            document.getElementById('statusmessagefield').textContent = profile.statusMessage;
-        }).catch(function (error) {
-            window.alert("Error getting profile: " + error);
-        });
-    }
-
-    function initializeApp(data) {
-        document.getElementById('languagefield').textContent = data.language;
-        document.getElementById('viewtypefield').textContent = data.context.viewType;
-        document.getElementById('useridfield').textContent = data.context.userId;
-        document.getElementById('utouidfield').textContent = data.context.utouId;
-        document.getElementById('roomidfield').textContent = data.context.roomId;
-        document.getElementById('groupidfield').textContent = data.context.groupId;
-    }
-
-
-</script>
 <!--<script src="/static/js/liff.js"></script>-->
 {% endblock %}

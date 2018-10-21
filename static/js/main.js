@@ -1,5 +1,3 @@
-//var map;
-//var directions;
 rendererOptions = {
     draggable: true,
     preserveViewport: false
@@ -10,27 +8,53 @@ var directionsService =
     new google.maps.DirectionsService();
 var map;
 
-$(function () {
-    //    initMap();
+$(window).on('load', function () {
 
+    // init で初期化。基本情報を取得。
+    // https://developers.line.me/ja/reference/liff/#initialize-liff-app
+    liff.init(function (data) {
 
+        getProfile();
+        initializeApp(data);
+    });
 });
 
 $('#mapping').click(() => {
-    //    renderMap();
     dispRoute();
 });
 
-//$(window).on('load', () => {
-//    console.log('onload')
-//    //    if (GBrowserIsCompatible()) {
-//    //        map = new GMap2(document.getElementById("map_canvas"));
-//    //        map.setCenter(new GLatLng(35.681379, 139.765577), 13);
-//    //
-//    //        directions = new GDirections(map, document.getElementById('route'));
-//    //    }
-//    initialize();
-//})
+// プロファイルの取得と表示
+function getProfile() {
+    // https://developers.line.me/ja/reference/liff/#liffgetprofile()
+    liff.getProfile().then(function (profile) {
+        document.getElementById('useridprofilefield').textContent = profile.userId;
+        document.getElementById('displaynamefield').textContent = profile.displayName;
+
+        var profilePictureDiv = document.getElementById('profilepicturediv');
+        if (profilePictureDiv.firstElementChild) {
+            profilePictureDiv.removeChild(profilePictureDiv.firstElementChild);
+        }
+        var img = document.createElement('img');
+        img.src = profile.pictureUrl;
+        img.alt = "Profile Picture";
+        img.width = 200;
+        profilePictureDiv.appendChild(img);
+
+        document.getElementById('statusmessagefield').textContent = profile.statusMessage;
+    }).catch(function (error) {
+        window.alert("Error getting profile: " + error);
+    });
+}
+
+function initializeApp(data) {
+    document.getElementById('languagefield').textContent = data.language;
+    document.getElementById('viewtypefield').textContent = data.context.viewType;
+    document.getElementById('useridfield').textContent = data.context.userId;
+    document.getElementById('utouidfield').textContent = data.context.utouId;
+    document.getElementById('roomidfield').textContent = data.context.roomId;
+    document.getElementById('groupidfield').textContent = data.context.groupId;
+}
+
 
 function initialize() {
     var zoom = 7;
@@ -50,7 +74,6 @@ function initialize() {
     calcRoute("東京", "名古屋");
 }
 
-
 function calcRoute(src, dst) {
     var request = {
         origin: src,
@@ -68,13 +91,6 @@ function calcRoute(src, dst) {
             }
         });
 }
-
-$(window).on('unload', () => {
-    console.log('unload')
-    GUnload()
-})
-
-
 
 function initMap() {
     console.log('initMap')
@@ -105,9 +121,5 @@ function dispRoute() {
     console.log(from)
     console.log(to)
 
-//    directions.clear();
-//
-//    str = 'from: ' + from + ' to: ' + to;
-//    directions.load(str, { locale: 'ja_JP' });
     calcRoute(from, to)
 }
