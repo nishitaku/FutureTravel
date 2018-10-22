@@ -22,7 +22,8 @@ load_dotenv(dotenv_path)
 YOUR_CHANNEL_ACCESS_TOKEN = os.environ.get("YOUR_CHANNEL_ACCESS_TOKEN")
 YOUR_CHANNEL_SECRET = os.environ.get("YOUR_CHANNEL_SECRET")
 
-LIFF_URL = "line://app/1614481927-DL6wVJEZ"
+# LIFF_URL = "line://app/1614481927-DL6wVJEZ"
+LIFF_URL = "開発中だよ"
 
 line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(YOUR_CHANNEL_SECRET)
