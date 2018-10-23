@@ -24,7 +24,7 @@ dotenv_path = join(dirname(__file__), '.env')
 load_dotenv(dotenv_path)
 YOUR_CHANNEL_ACCESS_TOKEN = os.environ.get("YOUR_CHANNEL_ACCESS_TOKEN")
 YOUR_CHANNEL_SECRET = os.environ.get("YOUR_CHANNEL_SECRET")
-GOOGLE_STATICMAPS_APIKEY = 'AIzaSyBdfdAlLSf8hWn3cLczA7DFQOSzn3VuUCM'
+GOOGLE_MAPS_APIKEY = os.environ.get("GOOGLE_MAPS_APIKEY")
 
 # LIFF_URL = "line://app/1614481927-DL6wVJEZ"
 LIFF_URL = "開発中だよ"
@@ -108,12 +108,12 @@ def getimage():
 
     # Google Static Map API
     map_image_url = 'https://maps.googleapis.com/maps/api/staticmap?size=520x520&scale=2&maptype=roadmap&key={}'.format(
-        GOOGLE_STATICMAPS_APIKEY)
+        GOOGLE_MAPS_APIKEY)
     map_image_url += '&markers=color:{}|label:{}|{},{}'.format('red', '', src_location[2], src_location[3])
     map_image_url += '&markers=color:{}|label:{}|{},{}'.format('blue', '', dst_location[2], dst_location[3])
 
     map_image_url_thumbnail = 'https://maps.googleapis.com/maps/api/staticmap?size=240x240&scale=2&maptype=roadmap&key={}'.format(
-        GOOGLE_STATICMAPS_APIKEY)
+        GOOGLE_MAPS_APIKEY)
     map_image_url_thumbnail += '&markers=color:{}|label:{}|{},{}'.format('red', '', src_location[2], src_location[3])
     map_image_url_thumbnail += '&markers=color:{}|label:{}|{},{}'.format('blue', '', dst_location[2], dst_location[3])
 
@@ -128,7 +128,7 @@ def getimage():
 
 def get_location(text):
     # 座標取得
-    geo_url = 'https://maps.googleapis.com/maps/api/place/textsearch/xml?query={}&key={}'.format(text, GOOGLE_STATICMAPS_APIKEY)
+    geo_url = 'https://maps.googleapis.com/maps/api/place/textsearch/xml?query={}&key={}'.format(text, GOOGLE_MAPS_APIKEY)
 
     geo_req = urllib.request.Request(geo_url)
     with urllib.request.urlopen(geo_req) as response:
