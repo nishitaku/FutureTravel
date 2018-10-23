@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, make_response, jsonify
 import numpy as np
 from linebot import (
     LineBotApi, WebhookHandler
@@ -12,6 +12,9 @@ from linebot.models import (
 import os
 from os.path import join, dirname
 from dotenv import load_dotenv
+import urllib.parse
+import urllib.request
+import xml.etree.ElementTree as ET
 
 # 自身の名称を app という名前でインスタンス化する
 app = Flask(__name__)
@@ -21,6 +24,7 @@ dotenv_path = join(dirname(__file__), '.env')
 load_dotenv(dotenv_path)
 YOUR_CHANNEL_ACCESS_TOKEN = os.environ.get("YOUR_CHANNEL_ACCESS_TOKEN")
 YOUR_CHANNEL_SECRET = os.environ.get("YOUR_CHANNEL_SECRET")
+GOOGLE_STATICMAPS_APIKEY = 'AIzaSyBdfdAlLSf8hWn3cLczA7DFQOSzn3VuUCM'
 
 # LIFF_URL = "line://app/1614481927-DL6wVJEZ"
 LIFF_URL = "開発中だよ"
@@ -90,6 +94,54 @@ def post():
     else:
         # エラーなどでリダイレクトしたい場合はこんな感じで
         return redirect(url_for('index'))
+
+
+@app.route('/getimage', methods=['GET'])
+def getimage():
+    # パラメータ取得
+    src = request.args.get('src')
+    dst = request.args.get('dst')
+
+    # 座標取得
+    src_location = get_location(src)
+    dst_location = get_location(dst)
+
+    # Google Static Map API
+    map_image_url = 'https://maps.googleapis.com/maps/api/staticmap?size=520x520&scale=2&maptype=roadmap&key={}'.format(
+        GOOGLE_STATICMAPS_APIKEY)
+    map_image_url += '&markers=color:{}|label:{}|{},{}'.format('red', '', src_location[2], src_location[3])
+    map_image_url += '&markers=color:{}|label:{}|{},{}'.format('blue', '', dst_location[2], dst_location[3])
+
+    map_image_url_thumbnail = 'https://maps.googleapis.com/maps/api/staticmap?size=240x240&scale=2&maptype=roadmap&key={}'.format(
+        GOOGLE_STATICMAPS_APIKEY)
+    map_image_url_thumbnail += '&markers=color:{}|label:{}|{},{}'.format('red', '', src_location[2], src_location[3])
+    map_image_url_thumbnail += '&markers=color:{}|label:{}|{},{}'.format('blue', '', dst_location[2], dst_location[3])
+
+    response = jsonify({
+        'result': 'hello world!',
+        'map_image_url': urllib.parse.quote(map_image_url, safe='/:=?&'),
+        'map_image_url_thumbnail': urllib.parse.quote(map_image_url_thumbnail, safe='/:=?&')
+    })
+
+    return make_response(response)
+
+
+def get_location(text):
+    # 座標取得
+    geo_url = 'https://maps.googleapis.com/maps/api/place/textsearch/xml?query={}&key={}'.format(text, GOOGLE_STATICMAPS_APIKEY)
+
+    geo_req = urllib.request.Request(geo_url)
+    with urllib.request.urlopen(geo_req) as response:
+        geo_xmldata = response.read()
+    geo_root = ET.fromstring(geo_xmldata)
+
+    # 最寄駅情報(名前、住所、緯度経度)を取得
+    name = geo_root.findtext(".//name")
+    address = geo_root.findtext(".//formatted_address")
+    geo_lat = geo_root.findtext(".//lat")
+    geo_lon = geo_root.findtext(".//lng")
+
+    return name, address, geo_lat, geo_lon
 
 
 if __name__ == '__main__':

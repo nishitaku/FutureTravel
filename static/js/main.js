@@ -8,8 +8,6 @@ var directionsService =
     new google.maps.DirectionsService();
 var map;
 
-
-
 function test_external() {
     alert('test');
 }
@@ -63,8 +61,8 @@ function initMap() {
 
 function renderMap() {
     console.log('renderMap')
-    var src = $('#src').text()
-    var dst = $('#dst').text()
+    var src = $('#src').val();
+    var dst = $('#dst').val()
     var opts = {
         zoom: 15,
         center: new google.maps.LatLng(35.1253694, 136.9073667)
