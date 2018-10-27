@@ -1,0 +1,52 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<!-- ヘッダー -->
+{% from "common.html" import header %}
+{{ header('みんなのコースを見る') }}
+
+<div class="form">
+    <div class="container">
+
+        <!-- モデルコース -->
+        {% from "common.html" import model_course %}
+        {{ model_course() }}
+
+        <!-- 人気のコース -->
+        {% from "common.html" import share_course %}
+        {{ share_course() }}
+    </div>
+</div>
+
+<!--jquery-->
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+    crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+    crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+    crossorigin="anonymous"></script>
+
+<!-- LIFF SDK-->
+<script src="https://d.line-scdn.net/liff/1.0/sdk.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script type="text/javascript" src="/static/js/main.js"></script>
+<script>
+    window.onload = function () {
+        // init で初期化。基本情報を取得。
+        // https://developers.line.me/ja/reference/liff/#initialize-liff-app
+        liff.init(function (data) {
+
+            getProfile();
+        });
+    }
+
+    // プロファイルの取得と表示
+    function getProfile() {
+        liff.getProfile().then((profile) => {
+            document.getElementById('login_name').textContent = 'ようこそ ' + profile.displayName + ' さん';
+        }).catch(function (error) {
+            window.alert("Error getting profile: " + error);
+        });
+    }
+</script>
+{% endblock %}
