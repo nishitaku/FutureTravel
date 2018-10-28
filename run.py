@@ -7,7 +7,7 @@ from linebot.exceptions import (
     InvalidSignatureError
 )
 from linebot.models import (
-    MessageEvent, TextMessage, TextSendMessage, MessageImagemapAction, ImagemapArea, BaseSize, ImagemapSendMessage, FollowEvent, TemplateSendMessage, ButtonsTemplate, PostbackAction, MessageAction, URIAction, JoinEvent
+    MessageEvent, TextMessage, TextSendMessage, MessageImagemapAction, ImagemapArea, BaseSize, ImagemapSendMessage, FollowEvent, TemplateSendMessage, ButtonsTemplate, PostbackAction, MessageAction, URIAction, JoinEvent, URIImagemapAction
 )
 import os
 from os.path import join, dirname
@@ -35,6 +35,11 @@ GOOGLE_MAPS_APIKEY = os.environ.get("GOOGLE_MAPS_APIKEY")
 
 LIFF_URL = "line://app/1614481927-B8VxYpMm"
 
+START_KEYWORD1 = "メニュー"
+START_KEYWORD2 = "未来旅行記"
+START_MSG = '「' + START_KEYWORD1 + '」「' + START_KEYWORD2 + '」と送信すれば、再度メニューを表示します'
+
+
 line_bot_api = LineBotApi(YOUR_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(YOUR_CHANNEL_SECRET)
 
@@ -61,8 +66,15 @@ def callback():
 
 @handler.add(MessageEvent, message=TextMessage)
 def handle_message(event):
-    if event.message.text == "あいさつ":
-        line_bot_api.reply_message(event.reply_token, greeting_msg())
+    if START_KEYWORD1 in event.message.text or START_KEYWORD2 in event.message.text:
+        msg = create_img_map_msg()
+        line_bot_api.reply_message(
+            event.reply_token,
+            [
+                msg,
+                TextSendMessage(text=START_MSG)
+            ]
+        )
 
     if event.message.text == "位置情報送信":
         line_bot_api.reply_message(
@@ -75,38 +87,64 @@ def handle_message(event):
 
 @handler.add(FollowEvent)
 def handle_message(event):
-    msg = greeting_msg()
-    app.logger.info(msg)
-    line_bot_api.reply_message(event.reply_token, msg)
+    msg = create_img_map_msg()
+    line_bot_api.reply_message(
+        event.reply_token,
+        [
+            msg,
+            TextSendMessage(text=START_MSG)
+        ]
+    )
 
 
 @handler.add(JoinEvent)
 def handle_message(event):
-    msg = greeting_msg()
-    app.logger.info(msg)
-    line_bot_api.reply_message(event.reply_token, msg)
-
-
-def greeting_msg():
-    buttons_template_message = TemplateSendMessage(
-        alt_text='Buttons template',
-        template=ButtonsTemplate(
-            thumbnail_image_url='https://' + request.host + '/static/img/melon.jpg',
-            title='未来旅行記',
-            text='経路情報のシェアや、未来画像の生成ができます',
-            actions=[
-                MessageAction(
-                    label='あいさつ',
-                    text='あいさつ'
-                ),
-                URIAction(
-                    label='未来旅行記を開く',
-                    uri=LIFF_URL
-                )
-            ]
-        )
+    msg = create_img_map_msg()
+    line_bot_api.reply_message(
+        event.reply_token,
+        [
+            msg,
+            TextSendMessage(text=START_MSG)
+        ]
     )
-    return buttons_template_message
+
+
+def create_img_map_msg():
+    actions = []
+    actions.append(URIImagemapAction(
+        link_uri='line://app/1614481927-WbXaLGy0',
+        area=ImagemapArea(
+            x=0, y=0, width=520, height=520
+    )
+    ))
+    actions.append(URIImagemapAction(
+        link_uri='line://app/1614481927-BqrGLbvl',
+        area=ImagemapArea(
+            x=0, y=520, width=520, height=520
+        )
+    ))
+    actions.append(URIImagemapAction(
+        link_uri='line://app/1614481927-2N50kX34',
+        area=ImagemapArea(
+            x=520, y=0, width=520, height=520
+        )
+    ))
+    actions.append(URIImagemapAction(
+        link_uri='line://app/1614481927-WLrPnOXQ',
+        area=ImagemapArea(
+            x=520, y=520, width=520, height=520
+        )
+
+    ))
+
+    message = ImagemapSendMessage(
+        base_url='https://' + request.host + '/imagemap/' + uuid.uuid4().hex,
+        alt_text='こんにちは！',
+        base_size=BaseSize(height=1040, width=1040),
+        actions=actions
+    )
+
+    return message
 
 
 # 旅のプランをつくる
@@ -150,14 +188,13 @@ def post():
 
 @app.route('/imagemap/<path:url>/<size>')
 def imagemap(url, size):
-    map_image_url = urllib.parse.unquote(url)
-    response = requests.get(map_image_url)
-    img = Image.open(BytesIO(response.content))
+    app.logger.info(url + ', ' + size)
+    img = Image.open("static/img/contact_menu.png")
     img_resize = img.resize((int(size), int(size)))
-    byte_io = BytesIO()
-    img_resize.save(byte_io, 'PNG')
-    byte_io.seek(0)
-    return send_file(byte_io, mimetype='image/png')
+    img_io = io.BytesIO()
+    img_resize.save(img_io, 'PNG')
+    img_io.seek(0)
+    return send_file(img_io, mimetype='image/png')
 
 
 @app.route('/getimage', methods=['GET'])
@@ -196,7 +233,6 @@ def getimage():
 @app.route('/gettwitter', methods=['POST'])
 def gettwitter():
     # パラメータ取得
-    # place = request.args.get('place')
     place = request.form['place']
     app.logger.info(place)
 
