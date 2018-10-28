@@ -14,14 +14,22 @@
             <input type="text" class="form-control" id="dst" placeholder="目的地を入力してください">
         </div>
         <div class="button-wrapper">
-            <button id="upload" class="btn btn-outline-light btn-main btn-lg" onclick="upload()"><i class="fa fa-upload"
-                    aria-hidden="true"></i>
-                写真アップロード</button>
+            <div class="input-group">
+                <label class="input-group-btn">
+                    <span class="btn btn-outline-light btn-main btn-lg">
+                        <i class="fa fa-upload" aria-hidden="true"></i>写真アップロード<input type="file" style="display:none">
+                    </span>
+                </label>
+                <input type="text" class="form-control" readonly="">
+            </div>
+
+        </div>
+        <div id="upload_photo"></div>
+        <div class="button-wrapper">
             <button id="merge" class="btn btn-outline-light btn-main btn-lg" onclick="merge()"><i class="fa fa-camera"
                     aria-hidden="true"></i>
                 画像合成</button>
         </div>
-        <div id="upload_photo"></div>
         <!-- <h4>宇宙旅行をお楽しみください!</h4> -->
         <!-- <img class="d-block w-100" src="/static/img/gosei.jpg"> -->
         <div class="my-3 button-wrapper">
@@ -123,5 +131,13 @@
             window.alert("Error getting profile: " + error.message);
         });
     }
+
+    $(document).on('change', ':file', function () {
+        var input = $(this),
+            numFiles = input.get(0).files ? input.get(0).files.length : 1,
+            label = input.val().replace(/\\/g, '/').replace(/.*\//, '');
+        input.parent().parent().next(':text').val(label);
+        upload();
+    });
 </script>
 {% endblock %}
