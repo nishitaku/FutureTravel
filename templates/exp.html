@@ -7,9 +7,24 @@
 
 <div class="form">
     <div class="container">
-        <h4>宇宙旅行をお楽しみください!</h4>
-        <img class="d-block w-100" src="/static/img/gosei.jpg">
+        <div class="form-group">
+            <label>目的地</label>
+            <!-- <input type="image" class="btn btn-light rounded-circle p-0" id="dst_twitter" src="/static/img/twitter.png"
+                        style="width:2rem;height:2rem;"> -->
+            <input type="text" class="form-control" id="dst" placeholder="目的地を入力してください">
+        </div>
         <div class="button-wrapper">
+            <button id="upload" class="btn btn-outline-light btn-main btn-lg" onclick="upload()"><i class="fa fa-upload"
+                    aria-hidden="true"></i>
+                写真アップロード</button>
+            <button id="merge" class="btn btn-outline-light btn-main btn-lg" onclick="merge()"><i class="fa fa-camera"
+                    aria-hidden="true"></i>
+                画像合成</button>
+        </div>
+        <div id="upload_photo"></div>
+        <!-- <h4>宇宙旅行をお楽しみください!</h4> -->
+        <!-- <img class="d-block w-100" src="/static/img/gosei.jpg"> -->
+        <div class="my-3 button-wrapper">
             <h4>あなたの旅行体験をシェアしよう</h4>
             <div id="fb-root"></div>
             <div class="fb-share-button" data-href="https://developers.facebook.com/docs/plugins/" data-layout="button"
@@ -17,7 +32,7 @@
                     class="fb-xfbml-parse-ignore">シェア</a></div>
             <a href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="twitter-share-button" data-show-count="false">Tweet</a>
             <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-            <img src="/static/img/share-b.png">
+            <img src="/static/img/share-b.png" onclick="send_img()">
         </div>
 
         <!-- オススメスポット -->
@@ -68,6 +83,44 @@
             document.getElementById('login_name').textContent = 'ようこそ ' + profile.displayName + ' さん';
         }).catch(function (error) {
             window.alert("Error getting profile: " + error);
+        });
+    }
+
+    function upload() {
+        console.log('upload');
+        var addObj =
+            $(
+                "<img id='photo' class='d-block w-100' src='/static/img/man_base.png'>"
+            )
+        $('#upload_photo').append(addObj);
+    }
+
+    function merge() {
+        console.log('merge');
+        $('#photo').remove();
+        var addObj =
+            $(
+                "<img class='d-block w-100' src='/static/img/ise.png'>"
+            )
+        $('#upload_photo').append(addObj);
+    }
+
+    function send_img() {
+        console.log('send_img')
+        liff.getProfile().then((profile) => {
+            liff.sendMessages([
+                {
+                    type: 'image',
+                    originalContentUrl: 'https://a300ad37.ngrok.io/static/img/ise.png',
+                    previewImageUrl: 'https://a300ad37.ngrok.io/static/img/ise.png'
+                }
+            ]).then(() => {
+                liff.closeWindow();
+            }).catch((error) => {
+                window.alert('Error sending message: ' + error.message);
+            });
+        }).catch((error) => {
+            window.alert("Error getting profile: " + error.message);
         });
     }
 </script>
